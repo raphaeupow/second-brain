@@ -1,0 +1,20 @@
+{
+  "name": "raphaeupow-second-brain",
+  "interface": {
+    "displayName": "Rafael's Plugins"
+  },
+  "plugins": [
+    {
+      "name": "second-brain",
+      "source": {
+        "source": "local",
+        "path": "../../.."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
