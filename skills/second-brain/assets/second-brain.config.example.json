@@ -1,0 +1,24 @@
+{
+  "config_version": 1,
+  "locale": "pt-BR",
+  "active_adapter": "notion",
+  "persistence": {
+    "mode": "explicit",
+    "search_before_create": true
+  },
+  "locations": {
+    "projects": null,
+    "areas": null,
+    "resources": null,
+    "archive": null,
+    "inbox": null,
+    "tasks": null
+  },
+  "adapters": {
+    "notion": {
+      "root_locator": null,
+      "property_mappings": {},
+      "capabilities_observed": []
+    }
+  }
+}

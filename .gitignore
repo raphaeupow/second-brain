@@ -1,0 +1,5 @@
+second-brain.config.local.json
+*.local.json
+.env
+.env.*
+!.env.example
