@@ -1,0 +1,40 @@
+{
+  "name": "second-brain",
+  "version": "1.1.0",
+  "description": "A PARA-based personal second brain for capturing, consolidating, recalling, organizing, planning, and reviewing durable knowledge.",
+  "author": {
+    "name": "Rafael Aguiar",
+    "url": "https://github.com/raphaeupow"
+  },
+  "homepage": "https://github.com/raphaeupow/second-brain",
+  "repository": "https://github.com/raphaeupow/second-brain",
+  "license": "MIT",
+  "keywords": [
+    "second-brain",
+    "para",
+    "notion",
+    "knowledge-management",
+    "personal-knowledge-management",
+    "capture",
+    "recall"
+  ],
+  "skills": "./skills/",
+  "apps": "./.app.json",
+  "interface": {
+    "displayName": "Second Brain",
+    "shortDescription": "PARA knowledge capture, recall, consolidation, planning, and review",
+    "longDescription": "Turn conversations into durable, reusable context using PARA. Second Brain keeps the workflow storage-independent through an adapter contract and uses the existing authenticated Notion app as its V1 persistence adapter.",
+    "developerName": "Rafael Aguiar",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/raphaeupow/second-brain",
+    "defaultPrompt": [
+      "Retome meu Second Brain e me diga onde paramos.",
+      "Consolide esta conversa no meu Second Brain.",
+      "Faça uma revisão semanal do meu Second Brain."
+    ]
+  }
+}

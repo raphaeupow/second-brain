@@ -4,11 +4,16 @@
 
 **Conversa é memória de trabalho. Storage externo é memória persistente.**
 
-Agent Skill pública para transformar conversas em contexto reutilizável, com organização PARA e persistência explícita. O nome instalável é `second-brain`; a identidade do projeto é **Second Brain**.
+Second Brain transforma conversas em contexto reutilizável, com organização PARA e persistência explícita. O núcleo é independente da ferramenta; Notion é o primeiro adapter.
 
-O núcleo independe da ferramenta. Notion é o primeiro adapter documentado. A V1 contém instruções e referências interpretadas pelo agente: não é um aplicativo, servidor MCP ou SDK, e não fornece um conector próprio.
+O mesmo repositório agora possui duas formas de distribuição:
 
-## Instalação
+- **Agent Skill / skills.sh** — continua instalável como `second-brain`.
+- **ChatGPT plugin** — empacota a mesma skill e declara o app Notion como dependência de persistência.
+
+Não existe servidor MCP próprio nesta arquitetura. O plugin reutiliza o app Notion autenticado pelo ChatGPT e mantém a lógica de storage atrás de um contrato de adapter.
+
+## Instalação da Agent Skill
 
 ```sh
 npx skills add raphaeupow/second-brain --skill second-brain
@@ -20,7 +25,13 @@ Para conferir a descoberta local, na raiz deste projeto:
 npx skills add . --list
 ```
 
-O agente precisa suportar Agent Skills e ter uma conexão autenticada com o storage escolhido. Instalar a skill não conecta o Notion nem concede acesso. Sem conexão, a skill pode produzir rascunhos identificados como não salvos.
+A instalação da skill isolada não conecta o Notion nem concede acesso. Sem uma conexão autenticada, a skill produz rascunhos identificados como não salvos.
+
+## ChatGPT plugin
+
+O pacote do plugin é descrito por `.codex-plugin/plugin.json`. A dependência do Notion fica em `.app.json`, usando o app oficial do Notion. Autenticação continua sendo responsabilidade da conexão do usuário no ChatGPT; nenhum token é armazenado neste repositório.
+
+A skill operacional continua em `skills/second-brain/`. Assim, o comportamento não é duplicado entre a distribuição do skills.sh e a do plugin.
 
 ## Comece assim
 
@@ -52,15 +63,25 @@ Núcleo: Capture · Consolidate · Recall · Organize · Plan · Review
             |
 Método PARA + contrato lógico de storage
             |
-Adapter Notion (V1) -> conector autenticado do agente -> storage
+        Storage Adapter
+            |
+            +-- Notion (V1) -> app Notion autenticado
+            +-- Google Drive (futuro)
+            +-- Obsidian / arquivos (futuro)
+            +-- outros providers (futuro)
 ```
 
-Adapters futuros podem representar arquivos locais, Obsidian ou outros serviços. Eles não estão implementados nesta versão. O contrato evita espalhar IDs, propriedades e semântica de API pelo núcleo.
+O contrato evita espalhar IDs, propriedades e semântica de API pelo núcleo. Trocar ou adicionar um provider deve exigir um novo adapter, não uma reescrita dos comportamentos.
 
 ## Conteúdo do repositório
 
 ```text
 second-brain/
+├── .codex-plugin/
+│   └── plugin.json
+├── .app.json
+├── adapters/
+│   └── README.md
 ├── README.md
 ├── LICENSE
 ├── .gitignore
@@ -84,20 +105,18 @@ second-brain/
             └── example.md
 ```
 
-Todas as dependências de instrução da skill ficam dentro de sua pasta, para sobreviver à instalação isolada. A documentação do projeto fica fora do contexto operacional.
+Todas as dependências operacionais da skill ficam dentro de sua pasta, para sobreviver à instalação isolada. A documentação de arquitetura e empacotamento fica fora do contexto operacional.
 
 ## Configuração opcional
 
-[Exemplo JSON](skills/second-brain/assets/second-brain.config.example.json). Ele é uma convenção do Second Brain, não um manifest reconhecido pelo skills.sh ou um arquivo executado automaticamente. O agente pode ler uma cópia privada indicada pelo usuário. Valores `null` significam não descoberto. Nunca coloque tokens, IDs reais ou dados pessoais no pacote público.
+O arquivo `skills/second-brain/assets/second-brain.config.example.json` é uma convenção do Second Brain, não um manifesto reconhecido pelo skills.sh nem um arquivo executado automaticamente. O agente pode ler uma cópia privada indicada pelo usuário. Valores `null` significam não descoberto. Nunca coloque tokens, IDs reais ou dados pessoais no pacote público.
 
 ## Publicação
 
-O código está em [raphaeupow/second-brain](https://github.com/raphaeupow/second-brain). Instale com o comando acima para o skills.sh registrar a skill via telemetria da CLI. Não há formulário de submissão; ranking e prazo de aparição não são garantidos. [FAQ oficial](https://www.skills.sh/docs/faq).
-
-Confira descoberta com `npx skills add raphaeupow/second-brain --list`. Execute os casos de aceitação com o conector escolhido em um espaço de testes.
+O código está em `raphaeupow/second-brain`. A distribuição pelo skills.sh continua independente do empacotamento como plugin. Confira descoberta com `npx skills add raphaeupow/second-brain --list` e execute os casos de aceitação com o conector escolhido em um espaço de testes.
 
 ## Validação e limites
 
-Veja [especificação](docs/SPEC.md), [casos de aceitação](docs/ACCEPTANCE.md) e [fontes do formato](docs/FORMAT-SOURCES.md). Instruções dependem do cumprimento pelo agente; não há enforcement por código, transações, sincronização ou execução em segundo plano. Teste real de escrita no Notion permanece um smoke test de release, não um resultado desta distribuição.
+Veja `docs/SPEC.md`, `docs/ACCEPTANCE.md` e `docs/FORMAT-SOURCES.md`. Instruções dependem do cumprimento pelo agente; não há enforcement por código, transações, sincronização ou execução em segundo plano. Teste real de escrita no Notion permanece um smoke test de release.
 
 PARA é um método de Tiago Forte. Este projeto é independente, sem afiliação com Forte Labs, Notion ou Vercel.
