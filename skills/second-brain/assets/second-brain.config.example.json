@@ -7,12 +7,14 @@
     "search_before_create": true
   },
   "locations": {
-    "projects": null,
     "areas": null,
+    "projects": null,
+    "tasks": null,
+    "knowledge": null,
     "resources": null,
+    "files": null,
     "archive": null,
-    "inbox": null,
-    "tasks": null
+    "inbox": null
   },
   "adapters": {
     "notion": {

@@ -6,6 +6,8 @@
 
 Second Brain transforma conversas em contexto reutilizável, com organização PARA e persistência explícita. O núcleo é independente da ferramenta; Notion é o primeiro adapter.
 
+A arquitetura canônica usa bases únicas para Areas, Projects, Tasks, Knowledge, Resources e Files. Páginas de Area e Project mostram linked views filtradas dessas bases; não são criadas bases separadas por area ou projeto.
+
 O mesmo repositório agora possui duas formas de distribuição:
 
 - **Agent Skill / skills.sh** — continua instalável como `second-brain`.
@@ -39,7 +41,7 @@ A skill operacional continua em `skills/second-brain/`. Assim, o comportamento n
 
 Se ainda não houver estrutura:
 
-> Configure Second Brain sob a página que vou indicar. Crie Projects, Areas, Resources, Archive e Inbox, se não existirem.
+> Configure Second Brain sob a página que vou indicar. Crie as bases canônicas Areas, Projects, Tasks, Knowledge, Resources e Files, se não existirem, com views filtradas por Project e Area.
 
 Depois:
 
@@ -72,6 +74,8 @@ Método PARA + contrato lógico de storage
 ```
 
 O contrato evita espalhar IDs, propriedades e semântica de API pelo núcleo. Trocar ou adicionar um provider deve exigir um novo adapter, não uma reescrita dos comportamentos.
+
+No bootstrap do Notion, a base canônica Tasks deve ter Status com apenas Backlog, Em andamento, Impedido e Concluído como padrões, Tipo com Produção, E-commerce, Financeiro, Estrutura, Orçamentos, Marketing/Comercial e Administrativo como padrões, e duas views na mesma base: `Por Status` e `Por Tipo`.
 
 ## Conteúdo do repositório
 

@@ -11,6 +11,11 @@ Run against a mock connector first. Record actual calls and user-facing receipts
 | Partial search | Zero candidates, has_more=true | Continue pagination; no premature create |
 | Access denied | Known project locator is inaccessible | Explain access issue; no replacement copy |
 | Adopt | Existing translated PARA schema | Map equivalents, preserve names and fields |
+| Canonical database check | Project page has a local Tasks database and root has canonical Tasks | Adopt/use canonical Tasks; do not create or use project-owned duplicate |
+| Bootstrap canonical | Empty verified root with setup authorization | Create Areas, Projects, Tasks, Knowledge, Resources, and Files canonical databases only |
+| Task views | Bootstrapped Tasks database supports views | Create `Por Status` grouped by Status and `Por Tipo` grouped by Type on the same database |
+| Task defaults | Tasks schema creation or repair | Default Status only Backlog/Em andamento/Impedido/Concluído; no Inbox/Próxima/Aguardando defaults |
+| Project task creation | User creates a task from Project context | Relate task to Project and derive Area from Project when supported |
 | Bootstrap interrupted | Root created, second child write times out | Reconcile; resume only missing steps |
 | Consolidate | Old decision plus new tentative alternative | Preserve decision, label alternative |
 | No-save override | “Consolidate here, do not save” | Draft only |

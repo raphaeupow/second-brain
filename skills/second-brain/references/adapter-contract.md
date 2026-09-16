@@ -10,15 +10,17 @@ Use these concepts where applicable, without requiring a matching database colum
 |---|---|
 | id, locator | Stable provider identity and retrievable link; opaque to the core |
 | title, aliases | Human name and alternative search terms |
-| kind | project, area, resource, task, or note |
-| placement | projects, areas, resources, archive, or inbox |
+| kind | area, project, task, knowledge, resource, file, or note |
+| placement | areas, projects, tasks, knowledge, resources, files, archive, or inbox |
 | body | Useful content, preferably readable without this skill |
 | state | Existing workflow state, mapped without inventing options |
 | sources | Available source links, dates, and attribution; no invented chat URLs |
 | updated_at, revision | Provider revision or observed timestamp/content snapshot |
 | relations | Related record identifiers, when supported |
 
-Archive is placement, preserving the original kind. Tasks belong to a project or area where possible; Inbox is a staging queue outside the four PARA categories. Absent fields remain absent or unknown, not fabricated. Body headings can represent metadata when structured fields are unavailable.
+Archive is placement, preserving the original kind. Tasks, knowledge, resources, and files belong to a project or area where possible; Inbox is a staging queue outside the four PARA categories. Absent fields remain absent or unknown, not fabricated. Body headings can represent metadata when structured fields are unavailable.
+
+Canonical Second Brain storage uses one shared container/database each for Areas, Projects, Tasks, Knowledge, Resources, and Files. Area and Project pages may contain filtered views into those canonical containers, but not duplicate per-area or per-project containers. Before a container for Projects, Tasks, Knowledge, Resources, or Files is created, the adapter must search and inspect for the canonical equivalent in the selected scope.
 
 ## Operations
 

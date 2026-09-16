@@ -2,7 +2,7 @@
 
 ## Capture
 
-For an explicit quick save, preserve the essential idea with a useful title, a short body, available attribution/source, and placement. Do not turn a capture into a full project dossier. If a clear matching record exists, add the relevant note there without duplicating it. Otherwise create in the appropriate location; use Inbox for unresolved classification.
+For an explicit quick save, preserve the essential idea with a useful title, a short body, available attribution/source, and placement. Do not turn a capture into a full project dossier. If a clear matching record exists, add the relevant note there without duplicating it. Otherwise create in the appropriate canonical database for its kind; use Inbox only for unresolved classification.
 
 ## Consolidate
 
@@ -25,7 +25,9 @@ Repeated consolidation with no new information should be a no-op with an explana
 
 ## Task records
 
-Creating separate tasks requires an instruction to do so. Suggested next actions may remain in the saved summary. When task creation is authorized, search the relevant task collection first, inspect actual statuses and relations, and avoid duplicating tasks already linked to the project. Do not translate unknown deadlines into today's date or default priority into urgency.
+Creating separate tasks requires an instruction to do so. Suggested next actions may remain in the saved summary. When task creation is authorized, search the canonical Tasks database first, inspect actual statuses and relations, and avoid duplicating tasks already linked to the project. If the task is created within a Project context, relate it to that Project and inherit or derive Area from the Project when supported and unambiguous. Do not translate unknown deadlines into today's date or default priority into urgency.
+
+Use only Backlog, Em andamento, Impedido, and Concluído as default task Status values; empty Status is acceptable. Do not create Inbox, Próxima, or Aguardando as default statuses. Use Produção, E-commerce, Financeiro, Estrutura, Orçamentos, Marketing/Comercial, and Administrativo as default Tipo values; empty Tipo is acceptable.
 
 ## Receipt
 

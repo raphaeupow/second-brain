@@ -18,6 +18,28 @@ A logical record is typically a page; its body is block content. Collections may
 
 For structured collections, inspect property types and allowed values before writing. Map title, state, category, deadline, and relations only where real equivalents exist. Do not add an option merely to fit this skill. Use body sections for optional information or explain the unsupported mapping. Leave deadlines unset when not established by the user.
 
+## Canonical databases and views
+
+For the canonical Second Brain, map Notion databases as one canonical database each for Areas, Projects, Tasks, Knowledge, Resources, and Files. Never create one Tasks, Knowledge, Resources, Files, or Projects database inside every Area or Project page. Use Notion linked database views filtered by relation instead.
+
+Before creating a Notion database for Projects, Tasks, Knowledge, Resources, or Files, search the selected root and accessible shared pages for an existing canonical database or equivalent data source. Inspect schema and representative rows before deciding it is missing.
+
+The logical relations are:
+
+- Projects -> Areas.
+- Tasks -> Projects and Areas.
+- Knowledge -> Projects and Areas where applicable.
+- Resources -> Projects and Areas where applicable.
+- Files -> Projects and Areas where applicable.
+
+When a task is created from a Project page or request scoped to one Project, set the Project relation and derive the Area from the Project relation when Notion properties or automation support it. If Area is a rollup/formula relation derived from Project, do not overwrite it manually. If derivation is unsupported or ambiguous, leave Area unset and report the limitation instead of guessing.
+
+The canonical Tasks database should expose these properties when supported by the live schema: Tarefa as title, Status as status/select, Tipo as select, Projeto as relation, Área as relation/rollup/formula, Prioridade, Prazo, Responsável, Notas, and Contexto if Contexto already exists. The only default Status options are Backlog, Em andamento, Impedido, and Concluído; empty is allowed. Do not add Inbox, Próxima, or Aguardando as default statuses. The default Tipo options are Produção, E-commerce, Financeiro, Estrutura, Orçamentos, Marketing/Comercial, and Administrativo; empty is allowed.
+
+If the connector supports database view creation, bootstrap two views on the canonical Tasks database: `Por Status` as a board grouped by Status and `Por Tipo` as a board grouped by Tipo. If it cannot create views, create the database and properties, then clearly report the exact views the user should add manually.
+
+Area pages should contain linked views filtered to that Area across canonical Projects, Tasks, Knowledge, Resources, and Files. Project pages should contain linked views filtered to that Project across canonical Tasks, Knowledge, Resources, and Files. If the connector cannot create linked views, add a concise section describing the intended filtered views rather than creating duplicate databases.
+
 ## Search and permissions
 
 The official API search is title-oriented; it does not promise full body search or exhaustive workspace enumeration. Search can lag behind newly shared content. Use mapped data source queries for records within those collections, and direct retrieval for known locators. Follow tool pagination. If a host exposes richer search, establish its scope rather than assuming API limitations or guarantees transfer unchanged. [Official search reference](https://developers.notion.com/reference/post-search), [search limitations](https://developers.notion.com/reference/search-optimizations-and-limitations).
