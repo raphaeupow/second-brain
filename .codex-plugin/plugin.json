@@ -1,7 +1,7 @@
 {
   "name": "second-brain",
-  "version": "1.1.0",
-  "description": "A PARA-based personal second brain for capturing, consolidating, recalling, organizing, planning, and reviewing durable knowledge.",
+  "version": "2.0.0",
+  "description": "A PARA-based personal second brain backed by a portable Markdown vault in Google Drive.",
   "author": {
     "name": "Rafael Aguiar",
     "url": "https://github.com/raphaeupow"
@@ -12,7 +12,9 @@
   "keywords": [
     "second-brain",
     "para",
-    "notion",
+    "google-drive",
+    "obsidian",
+    "markdown",
     "knowledge-management",
     "personal-knowledge-management",
     "capture",
@@ -22,8 +24,8 @@
   "apps": "./.app.json",
   "interface": {
     "displayName": "Second Brain",
-    "shortDescription": "PARA knowledge capture, recall, consolidation, planning, and review",
-    "longDescription": "Turn conversations into durable, reusable context using PARA. Second Brain keeps the workflow storage-independent through an adapter contract and uses the existing authenticated Notion app as its V1 persistence adapter.",
+    "shortDescription": "Google Drive PARA second brain",
+    "longDescription": "Turn conversations into durable, reusable context using PARA. Second Brain stores and recalls a portable Markdown/Obsidian-style vault in Google Drive while keeping persistence explicit and preserving raw Markdown.",
     "developerName": "Rafael Aguiar",
     "category": "Productivity",
     "capabilities": [
