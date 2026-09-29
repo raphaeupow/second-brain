@@ -1,22 +1,29 @@
-# Bootstrap and adopt
+# Bootstrap and adopt — Google Drive vault
 
-Run when the selected backend, root, or mapping is missing or stale.
+Run when the Second Brain root or folder mapping is missing, stale, or ambiguous.
 
-The canonical Second Brain has exactly one database each for Areas, Projects, Tasks, Knowledge, Resources, and Files. Area and Project pages expose filtered linked views of those canonical databases. They never own duplicate project-specific or area-specific databases.
+The preferred persistent structure is a portable Markdown vault in Google Drive. Adopt an existing vault before creating anything.
 
-1. Discover the connector's capabilities and accessible scope. If disconnected, explain that the user must connect storage using their host's integration flow. Never request secrets in chat. Prepare drafts while access is unavailable.
-2. Inspect any user-supplied root first. Search for existing Areas, Projects, Tasks, Knowledge, Resources, Files, archive, inbox, and equivalent collections using the workspace language and aliases. Inspect representative content and schemas; names alone do not establish purpose.
-3. **Adopt first:** map equivalent canonical databases without renaming or migrating them. A system need not look like PARA physically. Several logical locations may share one collection with a category field, but do not create duplicate databases per Area or Project. Preserve relations and user conventions unless they conflict with the canonical rules below.
-4. If multiple roots are plausible, report the concrete candidates and ask which to use. If discovery is incomplete or denied, request the relevant locator/access; do not conclude the system is empty.
-5. **Before creating any canonical database:** search for and inspect an existing equivalent for Projects, Tasks, Knowledge, Resources, or Files. A partial search, missing access, or stale index is not absence; ask for a locator or access when needed.
-6. **Bootstrap if genuinely missing:** propose a minimal root with the six canonical databases: Areas, Projects, Tasks, Knowledge, Resources, and Files. Optional Inbox and Archive may be pages or classifications, not replacements for the canonical databases. Explain the concrete structure before writing if the setup request did not specify it. An explicit instruction to create that structure already authorizes it.
-7. Configure the logical hierarchy: Area -> Project -> Tasks/Knowledge/Resources/Files. Projects relate to Areas. Tasks, Knowledge, Resources, and Files relate to Projects when applicable and to Areas directly when they are area-level.
-8. The canonical Tasks database should include Tarefa, Status, Tipo, Projeto, Área, Prioridade, Prazo, Responsável, Notas, and Contexto if Contexto already exists or is already part of the user's schema. Do not add conflicting legacy properties merely to satisfy older instructions.
-9. Status defaults are only Backlog, Em andamento, Impedido, and Concluído. Empty Status is valid and means no status. Do not create Inbox, Próxima, or Aguardando as default Status options.
-10. Tipo defaults are Produção, E-commerce, Financeiro, Estrutura, Orçamentos, Marketing/Comercial, and Administrativo. Empty Tipo is valid.
-11. When supported, create two views on the same canonical Tasks database: `Por Status`, a board grouped by Status, and `Por Tipo`, a board grouped by Tipo. These are views of the Tasks database, not additional databases.
-12. For each Area page, add or describe filtered linked views into the canonical Projects, Tasks, Knowledge, Resources, and Files databases. For each Project page, add or describe filtered linked views into the canonical Tasks, Knowledge, Resources, and Files databases. Never create project-owned or area-owned databases for those records.
-13. Search before each container creation. Verify new containers individually. On partial failure, keep verified IDs and resume only missing steps after reconciliation. Do not delete successful steps as automatic rollback.
-14. Read back locations and mappings. Return the adopted/created destinations and limitations. If asked to save the mapping, use the user's private config location or a designated private storage note, never the distributed skill directory.
+1. Discover Google Drive access. If disconnected, explain that the user must connect Google Drive through the host. Never request secrets in chat.
+2. Search for the root folder `Segundo_Cerebro`. Inspect user-supplied roots first. If multiple plausible roots exist, ask which one is canonical.
+3. Inspect direct children, `Dashboard.md`, and `99 - Sistema/Segundo Cerebro.md` when present.
+4. **Adopt first:** preserve existing folder names, Markdown file names, YAML keys, wiki links, and status labels. Do not migrate or rename merely to match this document.
+5. Map the logical PARA locations to existing folders. The current canonical convention is:
+   - `00 - Caixa de Entrada`
+   - `10 - Projetos`
+   - `20 - Areas`
+   - `30 - Recursos e Conhecimento`
+   - `40 - Arquivo`
+   - `50 - Tarefas`
+   - `90 - Anexos`
+   - `99 - Sistema`
+6. A partial search, missing access, or truncated folder listing is not evidence that a location is absent. Follow pagination or ask for the specific root locator.
+7. **Bootstrap only when genuinely missing and explicitly authorized:** propose/create the minimal missing folders, not a duplicate second structure. Do not bootstrap Notion databases.
+8. `50 - Tarefas` is the canonical task collection. Tasks are standalone Markdown files with YAML frontmatter. Do not create task sub-databases or task stores inside individual projects.
+9. Projects and Areas are linked through wiki links/YAML relationships. Related tasks/resources should link to their Project/Area when clear.
+10. Preserve Markdown portability. Do not convert vault files into native Google Docs/Sheets/Slides during setup.
+11. If an index such as `README.md` or `Dashboard.md` exists, preserve its role and update it only when the requested setup makes that necessary.
+12. Verify every created folder/file by reading metadata/content back. On partial failure, keep verified successful steps and resume only missing steps after reconciliation.
+13. If asked to save a private mapping, store no tokens. Prefer a user-designated private config location and avoid hardcoding Drive IDs in the public skill.
 
-Only structure creation and requested configuration are covered by setup authorization. Setup does not authorize importing the conversation or saving every future exchange.
+Setup authorization covers only structure creation/configuration. It does not authorize importing the conversation or automatically saving future exchanges.
