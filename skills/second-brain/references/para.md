@@ -11,6 +11,13 @@ PARA originates with Tiago Forte. This skill is an independent implementation, n
 
 Inbox is a staging location when purpose or destination is unclear. It is not a fifth PARA category and it is not a default task status. A project does not need an invented deadline. A resource may support multiple projects; link to it instead of duplicating its body. Preserve the original kind when archiving and allow restoration.
 
-Apply PARA through the canonical Second Brain hierarchy: Area -> Project -> Tasks/Knowledge/Resources/Files. Use one canonical database for each of Areas, Projects, Tasks, Knowledge, Resources, and Files, and expose filtered linked views where the user wants area-specific or project-specific context. Do not create separate databases under each Area or Project.
+In the Google Drive vault, PARA is represented primarily by folders and Markdown links rather than databases:
 
-Classify by how the user will use the information, not by document format. Keep an existing system's names and logical equivalents. Do not force a physical folder migration to apply the method.
+- `10 - Projetos` for Projects.
+- `20 - Areas` for Areas.
+- `30 - Recursos e Conhecimento` for Resources/Knowledge.
+- `40 - Arquivo` for Archive.
+- `00 - Caixa de Entrada` for staging.
+- `50 - Tarefas` is a shared action layer linked back to Projects/Areas.
+
+Classify by how the user will use the information, not by document format. Preserve the existing vault structure and wiki links. Do not duplicate a project or task just to make it appear in another context.
