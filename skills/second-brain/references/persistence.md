@@ -2,11 +2,15 @@
 
 ## Capture
 
-For an explicit quick save, preserve the essential idea with a useful title, a short body, available attribution/source, and placement. Do not turn a capture into a full project dossier. If a clear matching record exists, add the relevant note there without duplicating it. Otherwise create in the appropriate canonical database for its kind; use Inbox only for unresolved classification.
+For an explicit quick save, preserve the essential idea with a useful title, short body, available attribution/source, and placement. Search the verified Google Drive vault first.
+
+If a clear matching Markdown record exists, update the relevant file without duplicating it. Otherwise create a raw `.md` file in the appropriate canonical folder; use `00 - Caixa de Entrada` only when classification is unclear.
+
+Never convert a Markdown vault item into a native Google Doc as a write shortcut.
 
 ## Consolidate
 
-Read the current record and relevant supplied conversation before drafting. If older context is unavailable, describe that boundary; do not imply the whole history was consolidated.
+Read the current Drive file and relevant supplied conversation before drafting. If older context is unavailable, describe that boundary; do not imply the whole history was consolidated.
 
 Use applicable sections, omitting empty ones:
 
@@ -19,16 +23,29 @@ Use applicable sections, omitting empty ones:
 - Open questions, assumptions, and unresolved alternatives.
 - Short change history and source references.
 
-Merge durable knowledge, remove conversational repetition, and preserve nuance. An idea is not a decision; a proposal is not a commitment; a discussed action is not completed work. When a new explicit decision supersedes an old one, update current state and preserve a brief dated history. If sources conflict without resolution, retain both as an open question and ask only if needed for the requested change.
+Merge durable knowledge, remove conversational repetition, and preserve nuance. An idea is not a decision; a proposal is not a commitment; a discussed action is not completed work. When a new explicit decision supersedes an old one, update current state and preserve a brief dated history. If sources conflict without resolution, retain both as an open question.
 
-Repeated consolidation with no new information should be a no-op with an explanation, not another identical appended summary. When the connector only permits appending, compare prior consolidations first and append only the delta, with a readable heading.
+Repeated consolidation with no new information should be a no-op with an explanation, not another identical appended summary.
 
 ## Task records
 
-Creating separate tasks requires an instruction to do so. Suggested next actions may remain in the saved summary. When task creation is authorized, search the canonical Tasks database first, inspect actual statuses and relations, and avoid duplicating tasks already linked to the project. If the task is created within a Project context, relate it to that Project and inherit or derive Area from the Project when supported and unambiguous. Do not translate unknown deadlines into today's date or default priority into urgency.
+Creating separate tasks requires an instruction to do so. Suggested next actions may remain in the saved summary.
 
-Use only Backlog, Em andamento, Impedido, and Concluído as default task Status values; empty Status is acceptable. Do not create Inbox, Próxima, or Aguardando as default statuses. Use Produção, E-commerce, Financeiro, Estrutura, Orçamentos, Marketing/Comercial, and Administrativo as default Tipo values; empty Tipo is acceptable.
+When task creation is authorized:
+
+1. Inspect `50 - Tarefas` and search for an existing matching task.
+2. Create one raw Markdown file per task with YAML frontmatter.
+3. Link Project and Area with the vault's existing wiki-link conventions when clear.
+4. Do not invent deadline, owner, priority, completion, or urgency.
+5. Preserve existing task status labels. For new tasks, default only when needed to Backlog, Em andamento, Impedido, or Concluído; empty status is acceptable.
+6. If `50 - Tarefas/README.md` exists, update its index after the canonical task write and report partial failure separately.
+
+## Safe raw-file update
+
+Re-fetch the target immediately before replacement. Build the complete UTF-8 Markdown content from that fresh version, preserving unknown YAML keys and unrelated body sections. Replace the raw file in place using the same Drive file ID when possible, then fetch again to verify.
+
+If raw replacement cannot be performed with available host capabilities, return a draft marked **not saved**. Do not silently change file format.
 
 ## Receipt
 
-Return the destination link and a concise change summary. Distinguish verified saved, reported write with verification unavailable, not saved, and partial completion. For partial completion, identify successful records and pending work. Never claim durable memory from a draft displayed in chat.
+Return the Drive destination link and a concise change summary. Distinguish verified saved, reported write with verification unavailable, not saved, and partial completion. Never claim durable memory from a draft displayed only in chat.

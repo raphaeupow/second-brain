@@ -2,18 +2,37 @@
 
 [![skills.sh](https://skills.sh/b/raphaeupow/second-brain)](https://skills.sh/raphaeupow/second-brain)
 
-**Conversa é memória de trabalho. Storage externo é memória persistente.**
+**Conversa é memória de trabalho. O Google Drive é a memória persistente.**
 
-Second Brain transforma conversas em contexto reutilizável, com organização PARA e persistência explícita. O núcleo é independente da ferramenta; Notion é o primeiro adapter.
+Second Brain transforma conversas em contexto reutilizável, com organização PARA e persistência explícita. A versão atual usa um vault portátil em Markdown no Google Drive, compatível com Obsidian.
 
-A arquitetura canônica usa bases únicas para Areas, Projects, Tasks, Knowledge, Resources e Files. Páginas de Area e Project mostram linked views filtradas dessas bases; não são criadas bases separadas por area ou projeto.
+## Backend atual
 
-O mesmo repositório agora possui duas formas de distribuição:
+O armazenamento persistente oficial é o Google Drive. O vault esperado usa uma estrutura como:
 
-- **Agent Skill / skills.sh** — continua instalável como `second-brain`.
-- **ChatGPT plugin** — empacota a mesma skill e declara o app Notion como dependência de persistência.
+```text
+Segundo_Cerebro/
+├── 00 - Caixa de Entrada/
+├── 10 - Projetos/
+├── 20 - Areas/
+├── 30 - Recursos e Conhecimento/
+├── 40 - Arquivo/
+├── 50 - Tarefas/
+├── 90 - Anexos/
+├── 99 - Sistema/
+└── Dashboard.md
+```
 
-Não existe servidor MCP próprio nesta arquitetura. O plugin reutiliza o app Notion autenticado pelo ChatGPT e mantém a lógica de storage atrás de um contrato de adapter.
+As tarefas ficam como arquivos Markdown individuais em `50 - Tarefas`, com propriedades no cabeçalho YAML e contexto legível no corpo do arquivo.
+
+O plugin não usa Notion nesta versão e não consulta Google Calendar, a menos que o usuário peça explicitamente para combinar o calendário com o Segundo Cérebro.
+
+## Distribuição
+
+- **Agent Skill / skills.sh** — instalável como `second-brain`.
+- **ChatGPT plugin** — empacota a mesma skill e declara Google Drive como dependência de persistência.
+
+Não existe servidor MCP próprio nesta arquitetura. O plugin reutiliza o conector autenticado do Google Drive disponível no ChatGPT.
 
 ## Instalação da Agent Skill
 
@@ -21,40 +40,24 @@ Não existe servidor MCP próprio nesta arquitetura. O plugin reutiliza o app No
 npx skills add raphaeupow/second-brain --skill second-brain
 ```
 
-Para conferir a descoberta local, na raiz deste projeto:
-
-```sh
-npx skills add . --list
-```
-
-A instalação da skill isolada não conecta o Notion nem concede acesso. Sem uma conexão autenticada, a skill produz rascunhos identificados como não salvos.
-
-## ChatGPT plugin
-
-O pacote do plugin é descrito por `.codex-plugin/plugin.json`. A dependência do Notion fica em `.app.json`, usando o app oficial do Notion. Autenticação continua sendo responsabilidade da conexão do usuário no ChatGPT; nenhum token é armazenado neste repositório.
-
-A skill operacional continua em `skills/second-brain/`. Assim, o comportamento não é duplicado entre a distribuição do skills.sh e a do plugin.
+A instalação da skill isolada não concede acesso ao Drive. Sem uma conexão autenticada, a skill produz rascunhos identificados como não salvos.
 
 ## Comece assim
 
-> Use Second Brain para adotar minha estrutura existente no Notion. Primeiro identifique as páginas e os bancos equivalentes.
-
-Se ainda não houver estrutura:
-
-> Configure Second Brain sob a página que vou indicar. Crie as bases canônicas Areas, Projects, Tasks, Knowledge, Resources e Files, se não existirem, com views filtradas por Project e Area.
+> Use Second Brain para retomar meu vault `Segundo_Cerebro` no Google Drive.
 
 Depois:
 
 | Você pede | Comportamento |
 |---|---|
-| “Salve esta ideia” | Capture: grava uma captura curta após buscar correspondências |
-| “Consolide este projeto” | Consolidate: sintetiza e persiste o contexto relevante |
-| “Onde paramos?” | Recall: consulta fontes persistentes antes de responder |
+| “Salve esta ideia” | Capture: busca correspondências e grava um Markdown no destino correto |
+| “Consolide este projeto” | Consolidate: lê o arquivo atual, sintetiza e persiste o contexto relevante |
+| “Onde paramos?” | Recall: consulta os arquivos persistentes antes de responder |
 | “Organize meu segundo cérebro” | Organize: inspeciona e propõe mudanças |
 | “Planeje minha semana” | Plan: propõe ações com base no contexto |
 | “Faça a revisão semanal” | Review: revisa e propõe próximos passos |
 
-“Consolide aqui, sem salvar” permanece no chat. Planejar e revisar não gravam automaticamente. “Mova este projeto para Archive” autoriza essa alteração específica. Salvar uma nota não cria tarefas separadas sem solicitação.
+“Consolide aqui, sem salvar” permanece no chat. Planejar e revisar não gravam automaticamente. Salvar uma nota não cria tarefas separadas sem solicitação.
 
 ## Arquitetura
 
@@ -65,17 +68,19 @@ Núcleo: Capture · Consolidate · Recall · Organize · Plan · Review
             |
 Método PARA + contrato lógico de storage
             |
-        Storage Adapter
+     Google Drive adapter
             |
-            +-- Notion (V1) -> app Notion autenticado
-            +-- Google Drive (futuro)
-            +-- Obsidian / arquivos (futuro)
-            +-- outros providers (futuro)
+      Segundo_Cerebro/
+        Markdown + YAML
 ```
 
-O contrato evita espalhar IDs, propriedades e semântica de API pelo núcleo. Trocar ou adicionar um provider deve exigir um novo adapter, não uma reescrita dos comportamentos.
+O adapter preserva IDs, arquivos, relações e semântica do Drive fora do núcleo. A skill mantém os arquivos Markdown portáveis e evita conversão para Google Docs durante gravações.
 
-No bootstrap do Notion, a base canônica Tasks deve ter Status com apenas Backlog, Em andamento, Impedido e Concluído como padrões, Tipo com Produção, E-commerce, Financeiro, Estrutura, Orçamentos, Marketing/Comercial e Administrativo como padrões, e duas views na mesma base: `Por Status` e `Por Tipo`.
+## Tarefas
+
+`50 - Tarefas` é a coleção canônica. Cada tarefa é um arquivo `.md` com YAML. Campos comuns incluem `status`, `tipo`, `projeto`, `área`, `prioridade`, `prazo`, `notas`, `contexto` e `criado_em`.
+
+A skill preserva os valores existentes. Para tarefas novas, quando um status padrão for necessário, usa somente Backlog, Em andamento, Impedido ou Concluído. Campos ausentes permanecem ausentes em vez de serem inventados.
 
 ## Conteúdo do repositório
 
@@ -88,7 +93,6 @@ second-brain/
 │   └── README.md
 ├── README.md
 ├── LICENSE
-├── .gitignore
 ├── docs/
 │   ├── SPEC.md
 │   ├── ACCEPTANCE.md
@@ -101,7 +105,7 @@ second-brain/
         │   └── second-brain.config.example.json
         └── references/
             ├── adapter-contract.md
-            ├── adapter-notion.md
+            ├── adapter-google-drive.md
             ├── bootstrap.md
             ├── para.md
             ├── persistence.md
@@ -109,18 +113,16 @@ second-brain/
             └── example.md
 ```
 
-Todas as dependências operacionais da skill ficam dentro de sua pasta, para sobreviver à instalação isolada. A documentação de arquitetura e empacotamento fica fora do contexto operacional.
-
 ## Configuração opcional
 
-O arquivo `skills/second-brain/assets/second-brain.config.example.json` é uma convenção do Second Brain, não um manifesto reconhecido pelo skills.sh nem um arquivo executado automaticamente. O agente pode ler uma cópia privada indicada pelo usuário. Valores `null` significam não descoberto. Nunca coloque tokens, IDs reais ou dados pessoais no pacote público.
+`skills/second-brain/assets/second-brain.config.example.json` é uma convenção do Second Brain, não um manifesto executado automaticamente. Valores `null` significam não descoberto. Nunca coloque tokens ou IDs privados reais no pacote público.
 
 ## Publicação
 
-O código está em `raphaeupow/second-brain`. A distribuição pelo skills.sh continua independente do empacotamento como plugin. Confira descoberta com `npx skills add raphaeupow/second-brain --list` e execute os casos de aceitação com o conector escolhido em um espaço de testes.
+O código está em `raphaeupow/second-brain`. A distribuição pelo skills.sh continua independente do empacotamento como plugin.
 
 ## Validação e limites
 
-Veja `docs/SPEC.md`, `docs/ACCEPTANCE.md` e `docs/FORMAT-SOURCES.md`. Instruções dependem do cumprimento pelo agente; não há enforcement por código, transações, sincronização ou execução em segundo plano. Teste real de escrita no Notion permanece um smoke test de release.
+As regras são instruções ao agente. Segurança e permissões continuam dependendo do host e do Google Drive. Busca pode ser incompleta, e substituição de arquivos raw deve ser verificada por leitura posterior.
 
-PARA é um método de Tiago Forte. Este projeto é independente, sem afiliação com Forte Labs, Notion ou Vercel.
+PARA é um método de Tiago Forte. Este projeto é independente, sem afiliação com Forte Labs, Google ou Obsidian.

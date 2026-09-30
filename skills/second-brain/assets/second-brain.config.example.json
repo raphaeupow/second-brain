@@ -1,25 +1,30 @@
 {
-  "config_version": 1,
+  "config_version": 2,
   "locale": "pt-BR",
-  "active_adapter": "notion",
+  "active_adapter": "google-drive",
   "persistence": {
     "mode": "explicit",
-    "search_before_create": true
+    "search_before_create": true,
+    "preserve_markdown": true
+  },
+  "root": {
+    "name": "Segundo_Cerebro",
+    "locator": null
   },
   "locations": {
-    "areas": null,
-    "projects": null,
-    "tasks": null,
-    "knowledge": null,
-    "resources": null,
-    "files": null,
-    "archive": null,
-    "inbox": null
+    "inbox": "00 - Caixa de Entrada",
+    "projects": "10 - Projetos",
+    "areas": "20 - Areas",
+    "knowledge_resources": "30 - Recursos e Conhecimento",
+    "archive": "40 - Arquivo",
+    "tasks": "50 - Tarefas",
+    "attachments": "90 - Anexos",
+    "system": "99 - Sistema"
   },
   "adapters": {
-    "notion": {
+    "google-drive": {
       "root_locator": null,
-      "property_mappings": {},
+      "task_format": "markdown+yaml",
       "capabilities_observed": []
     }
   }
