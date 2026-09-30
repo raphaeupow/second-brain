@@ -1,58 +1,65 @@
-# Second Brain — especificação V1
+# Second Brain — especificação V2
 
 ## Objetivo
 
-Criar uma Agent Skill portátil que recupere contexto útil e persista apenas o conteúdo solicitado. O storage é a fonte durável; a conversa é um espaço temporário para pensar, decidir e preparar mudanças. Não se promete lembrança entre sessões sem gravação externa e posterior recuperação.
+Criar uma Agent Skill portátil que recupere contexto útil e persista apenas o conteúdo solicitado. A conversa é memória de trabalho; o vault no Google Drive é a memória durável.
 
 ## Decisões de projeto
 
-- Identidade pública: Second Brain. Slug instalável: `second-brain`, sem fornecedor.
-- Distribuição: uma skill autocontida em `skills/second-brain/`, com Markdown e JSON ilustrativo.
-- Idioma: instruções em inglês para distribuição ampla; documentação inicial em português. Respostas acompanham o idioma do usuário.
-- Arquitetura: núcleo de comportamentos, contrato lógico e adapters de tradução para ferramentas já disponíveis.
-- Arquitetura canônica do storage: bases únicas para Áreas, Projetos, Tarefas, Conhecimento, Recursos e Arquivos. Páginas de Área e Projeto exibem linked views filtradas dessas bases, sem bases duplicadas por Área ou Projeto.
-- Notion: primeiro adapter documental; nenhuma credencial, conta ou estrutura pessoal embutida.
-- Sem runtime na V1: um SDK executável adicionaria autenticação, dependências e manutenção sem ser necessário à entrega. Uma skill específica de Notion violaria a portabilidade pedida.
+- Identidade pública: Second Brain. Slug instalável: `second-brain`.
+- Backend atual: Google Drive.
+- Formato persistente: arquivos Markdown portáveis com YAML e links internos compatíveis com Obsidian.
+- Root preferencial: pasta `Segundo_Cerebro`.
+- Idioma: respostas acompanham o idioma do usuário.
+- Arquitetura: núcleo de comportamentos, contrato lógico e adapter Google Drive.
+- Não usar Notion nesta versão.
+- Não consultar Google Calendar salvo pedido explícito do usuário.
+- Sem runtime próprio: autenticação e ferramentas são fornecidas pelo host/conector.
 
 ## Modelo e fluxo
 
-O núcleo trabalha com registros, localização lógica PARA, conteúdo, origem, relações e revisão. O adapter converte essas intenções em operações reais. IDs permanecem opacos ao núcleo; propriedades e capacidades pertencem ao adapter.
+A estrutura persistente típica é:
 
-A hierarquia lógica é Área → Projeto → Tarefas/Conhecimento/Recursos/Arquivos. Tarefas criadas no contexto de um Projeto devem ser relacionadas ao Projeto e herdar ou derivar a Área quando o schema permitir.
+- Caixa de Entrada → `00 - Caixa de Entrada`
+- Projetos → `10 - Projetos`
+- Áreas → `20 - Areas`
+- Recursos/Conhecimento → `30 - Recursos e Conhecimento`
+- Arquivo → `40 - Arquivo`
+- Tarefas → `50 - Tarefas`
+- Anexos → `90 - Anexos`
+- Sistema → `99 - Sistema`
 
-Fluxo de leitura: intenção → destino verificado → busca/leitura → síntese com fontes e limites.
+As tarefas são arquivos Markdown individuais com estado no YAML e contexto no corpo.
 
-Fluxo de escrita: intenção explícita → descoberta/schema → busca → correspondência → rascunho → conferência de revisão → mutação → leitura de verificação → recibo.
+Fluxo de leitura: intenção → root verificado → busca/listagem → leitura direta → síntese com links e limites.
 
-Os estados observáveis são rascunho, destino resolvido, mudança preparada, gravação reportada, gravação verificada ou falha/resultado desconhecido. Uma chamada iniciada não equivale a persistência.
+Fluxo de escrita: intenção explícita → destino verificado → busca → correspondência → leitura fresca → merge Markdown/YAML → substituição raw do arquivo → leitura de verificação → recibo.
 
 ## Escopo funcional
 
 | Requisito | Critério de aceite |
 |---|---|
-| Capture | Salva o conteúdo delimitado; usa Inbox quando necessário |
+| Capture | Salva o conteúdo delimitado no arquivo/local correto |
 | Consolidate | Mescla objetivo, decisões e ações sem converter hipóteses em fatos |
-| Recall | Busca primeiro; informa fontes e contexto indisponível |
-| Organize | Adota equivalências existentes e aplica só mudanças autorizadas |
-| Plan | Mantém recomendações em conversa até pedido de persistência |
+| Recall | Busca/lê o Drive primeiro e informa fontes |
+| Organize | Adota estrutura existente e aplica só mudanças autorizadas |
+| Plan | Mantém recomendações no chat até pedido de persistência |
 | Review | Revisa o período e separa diagnóstico de alterações |
-| Search-before-create | Considera aliases, paginação, escopo e acesso |
-| Canonical architecture | Usa bases únicas; páginas exibem views filtradas; não cria bases por Área/Projeto |
-| Bootstrap/adopt | Prefere estrutura existente; cria seis bases canônicas só quando ausentes |
-| Tasks schema | Status padrão só Backlog, Em andamento, Impedido e Concluído; Tipo padrão conforme arquitetura canônica; views Por Status e Por Tipo |
-| Portabilidade | Nenhuma operação conceitual exige propriedade ou ID do Notion |
-| Confiança na escrita | Lê o resultado e reconcilia timeouts antes de repetir |
+| Search-before-create | Considera aliases, escopo, folder listing e acesso |
+| Markdown preservation | Não converte arquivos do vault para Google Docs |
+| Tasks | Usa `50 - Tarefas` como coleção canônica |
+| Drive verification | Releitura obrigatória após gravação |
+| Archive | Move/classifica reversivelmente; não usa lixeira |
+| Backend boundary | Não cai silenciosamente para Notion ou outro storage |
 
 ## Não objetivos
 
-Sincronização entre provedores, importação em massa, migração automática, busca vetorial própria, transcrição de voz, tarefas agendadas, envio de mensagens, API executável e criptografia própria. Nenhum adapter futuro é anunciado como funcional.
+Sincronização entre provedores, migração automática, busca vetorial própria, transcrição de voz, execução de calendário ou mensagens, API própria e criptografia própria.
 
 ## Extensão
 
-Um novo adapter deve documentar capacidades, busca e cobertura, leitura completa, mapeamento de schema, identidade, atualização, classificação reversível, erros e verificação. Deve passar os mesmos cenários sem mudar os seis comportamentos. V1 seleciona um backend por contexto; não faz fan-out nem replica dados.
+Um novo adapter deve documentar capacidades, busca e cobertura, leitura completa, identidade, atualização, classificação reversível, erros e verificação. Deve passar os mesmos cenários sem mudar os seis comportamentos.
 
-## Limites e entrega
+## Limites
 
-As regras são instruções ao agente. Segurança e permissões continuam dependendo do host e do storage. Busca pode ser incompleta e atualizações sem controle condicional têm uma janela de concorrência. O agente deve expor esses limites quando afetarem uma operação.
-
-O pacote usa licença MIT. Distribuição: [raphaeupow/second-brain](https://github.com/raphaeupow/second-brain). Validação com credenciais de teste no storage continua sendo um smoke test de release, não um recurso omitido da skill.
+As regras são instruções ao agente. Permissões dependem do host e do Google Drive. Busca pode ser incompleta. Atualização raw sem controle condicional tem janela de concorrência; por isso a skill relê imediatamente antes de gravar e verifica depois.
